@@ -1,0 +1,45 @@
+[training]
+
+    # not the batch size from batcher.py!!
+    batch_size = 32
+    validation_split = 0.2
+    seed = 123
+
+    # dimensions with which the model is trained. Higher resolution -> Longer training & higher RAM usage
+    img_height = 144
+    img_width = 256
+
+    # epochs of training. The higher the better but too high can lead to overfitting
+    epochs = 7
+
+    result_file_name = "gamerecognizer.keras"
+
+    # show a graph of the accuracy and loss during training after finishing
+    final_stats = true
+
+[batcher]
+
+    # number of images in the batch
+    tar_image_count = 3000
+
+    # folder name of the batch
+    batch_folder_name = "imagebatch"
+
+[splitter]
+
+    # Default name of the folder to put the images into
+    # only used if no game is in the filename and no second argument is given
+    default_name = "minecraft"
+
+    # FPS of the video. The higher the more images you generate.
+    # To not trash the folder it is recommended to keep it under 30
+    fps = 5
+
+    # minutes cap for the video. If you want many different scenarios/videos and you have a 60 minute video,
+    # you can turn it down!
+    max_minutes = 30
+
+    # dimensions of the images saved to the folder.
+    use_training_dims = false # Whether or not to use the training dimensions
+    movie_height = 1080
+    movie_width = 1920
