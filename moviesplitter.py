@@ -1,6 +1,7 @@
 from moviepy.editor import VideoFileClip
 import PIL
 import sys
+import time
 from os.path import basename
 from os import makedirs
 from toml import load as tload
@@ -27,7 +28,7 @@ vid = vid.set_fps(config["splitter"]["fps"])
 if vid.duration > 60*config["splitter"]["max_minutes"]:
     vid = vid.subclip(0,60*config["splitter"]["max_minutes"])
 
-vid = vid.resize((config["splitter"]["movie_width"],config["splitter"]["movie_height"]) if not config["splitter"]["use_training_dims"] else (config["training"]["img_height"],config["training"]["img_width"]))
+vid = vid.resize((config["splitter"]["movie_width"],config["splitter"]["movie_height"]) if not config["splitter"]["use_training_dims"] else (config["training"]["img_width"],config["training"]["img_height"]))
 
 frames = int(vid.duration*vid.fps)
 print("Frames to save: " + str(frames))
@@ -41,7 +42,18 @@ input()
 print("Starting...")
 
 frame_number = 0
+starttime = time.time()
+info_done = True
 for frame in vid.iter_frames():
+    if (time.time() - starttime) % 10 <= 1 and not info_done:
+        # every 10 seconds
+        elapsed = time.time() - starttime
+        remaining = elapsed * (frames / frame_number) - elapsed
+        frames_a_sec = frame_number / elapsed
+        print(f"{frame_number}/{frames} ({frame_number/frames*100:.2f}%) eta: {remaining:.2f}s with {frames_a_sec:.2f}fps")
+        info_done = True
+    elif (time.time() - starttime) % 10 > 1 and info_done:
+        info_done = False
     frame_image = PIL.Image.fromarray(frame)
     frame_image.save(frame_output+f"{frame_number}.jpg")
     frame_number += 1
