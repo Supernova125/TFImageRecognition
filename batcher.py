@@ -27,16 +27,18 @@ print("Starting to copy...")
 
 # Iterate over each image in the data_dir and randomly decide whether to copy it
 copiedfiles = 0
-for image_path in data_dir.glob('*/*.jpg'):
-    if random.random() < image_chance:
-        destination_dir = pathlib.Path(config["batcher"]["batch_folder_name"]) / image_path.parent.relative_to(data_dir)
-        destination_dir.mkdir(parents=True, exist_ok=True)
-        destination_path = destination_dir / image_path.name
-        #image_path.replace(destination_path)
-        # copy
-        copy(image_path, destination_path)
-        copiedfiles += 1
+while copiedfiles < tar_image_count:
+    for image_path in data_dir.glob('*/*.jpg'):
+        if random.random() < image_chance:
+            if copiedfiles >= tar_image_count:
+                break
+            destination_dir = pathlib.Path(config["batcher"]["batch_folder_name"]) / image_path.parent.relative_to(data_dir)
+            destination_dir.mkdir(parents=True, exist_ok=True)
+            destination_path = destination_dir / image_path.name
+            # copy
+            copy(image_path, destination_path)
+            copiedfiles += 1
 
 print("Done!")
-print("Copied: " + str(copiedfiles))
+print("Copied " + str(copiedfiles) + " images to " + str(config["batcher"]["batch_folder_name"]))
 input()

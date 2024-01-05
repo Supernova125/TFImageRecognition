@@ -15,7 +15,7 @@ You can feed images to the training by obtaining an mp4 or other video file of j
 
 ## Creating a training package
 
-The training will not just use all images in game_images because that would be way too much. Instead you can use `batcher.py` to split the folders up. You can go into the `batcher.py` file and change the amount of images you want. Then it chooses randomly which images to use. The result will be a slightly bigger or smaller pack if randomly selected images in (by default) `/imagebatchfitting/`. This will then be used by `model.py`.
+The training will not just use all images in game_images because that would be way too much. Instead you can use `batcher.py` to split the folders up. You can go into the `batcher.py` file and change the amount of images you want. Then it chooses randomly which images to use. The result will be the specified amount of randomly selected images in (by default) `/imagebatch/`. This will then be used by `model.py`.
 
 ## Generating the model
 
