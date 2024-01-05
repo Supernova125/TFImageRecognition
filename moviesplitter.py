@@ -27,10 +27,13 @@ vid = vid.set_fps(config["splitter"]["fps"])
 if vid.duration > 60*config["splitter"]["max_minutes"]:
     vid = vid.subclip(0,60*config["splitter"]["max_minutes"])
 
-vid.resize((config["splitter"]["movie_width"],config["splitter"]["movie_height"]) if not config["splitter"]["use_training_dims"] else (config["training"]["img_height"],config["training"]["img_width"]))
+vid = vid.resize((config["splitter"]["movie_width"],config["splitter"]["movie_height"]) if not config["splitter"]["use_training_dims"] else (config["training"]["img_height"],config["training"]["img_width"]))
 
 frames = int(vid.duration*vid.fps)
 print("Frames to save: " + str(frames))
+print("Duration: " + str(vid.duration))
+print("FPS: " + str(vid.fps))
+print("Resolution: " + str(vid.size))
 
 print("Splitting "+file_name+" into "+target_folder+"\nPress enter to start! (Outputs to "+frame_output+"{frame_number}.jpg)")
 input()
